@@ -1,0 +1,92 @@
+Brainstorming
+
+user - Holds information about the user, for logins and identification to allow for personal/private access to features.
+	user_id SERIAL PRIMARY KEY,
+	username VARCHAR UNIQUE NOT NULL,
+	email VARCHAR UNIQUE NOT NULL,
+	password VARCHAR NOT NULL;
+	
+recipes - stores recipes 
+	recipes_id SERIAL PRIMARY KEY,
+	user_id INT REFERENCES user(user_id),
+	ingredients_id VARCHAR REFERENCES ingredients(ingredients_id),
+	instructions VARCHAR NOT NULL,
+	is_public BOOLEAN NOT NULL;
+
+recipes_ingredients
+	recipes_ingredients_id SERIAL PRIMARY KEY,
+	recipes_id INT REFERENCES recipes(recipes_id),
+	ingredients_id INT REFERENCES ingredients(ingredients_id);
+
+ingredients
+	ingredients_id SERIAL PRIMARY KEY,
+	tomato VARCHAR,
+	spaghetti_noodles VARCHAR,
+	cheese VARCHAR;
+
+cart
+	cart_id SERIAL PRIMARY KEY,
+	user_id INT REFERENCES user(user_id),
+	ingredients_id VARCHAR REFERENCES ingredients(ingrediets_id);
+	
+occasions_recipes
+	occasions_recipes_id SERIAL PRIMARY KEY,
+	occasions_id INT REFERENCES occasions(occasions_id),
+	recipes_id INT REFERENCES recipes(recipes_id);
+
+occasions
+	occasions_id SERIAL PRIMARY KEY,
+	recipes_id INT REFERENCES recipes(recipes_id),
+	name VARCHAR,
+	date INT;
+
+
+Table Ideas.
+
+
+CREATE TABLE users (
+	users_id SERIAL PRIMARY KEY,
+	username VARCHAR NOT NULL,
+	email VARCHAR NOT NULL,
+	password VARCHAR NOT NULL
+);
+
+CREATE TABLE ingredients (
+	ingredients_id SERIAL PRIMARY KEY,
+	tomato VARCHAR,
+	spaghetti_noodles VARCHAR,
+	cheese VARCHAR
+);
+
+CREATE TABLE recipes (
+	recipes_id SERIAL PRIMARY KEY,
+	users_id INT REFERENCES users(users_id),
+	ingredients_id INT REFERENCES ingredients(ingredients_id),
+	instructions VARCHAR NOT NULL,
+	is_public BOOLEAN NOT NULL
+);
+
+CREATE TABLE recipes_ingredients (
+	recipes_ingredients_id SERIAL PRIMARY KEY,
+	recipes_id INT REFERENCES recipes(recipes_id),
+	ingredients_id INT REFERENCES ingredients(ingredients_id)
+);
+
+CREATE TABLE cart (
+	cart_id SERIAL PRIMARY KEY,
+	users_id INT REFERENCES users(users_id),
+	ingredients_id INT REFERENCES ingredients(ingredients_id)
+);
+
+CREATE TABLE occasions (
+	occasions_id SERIAL PRIMARY KEY,
+	recipes_id INT REFERENCES recipes(recipes_id),
+	name VARCHAR,
+	date INT
+);
+
+CREATE TABLE occasions_recipes (
+	occasions_recipes_id SERIAL PRIMARY KEY,
+	occasions_id INT REFERENCES occasions(occasions_id),
+	recipes_id INT REFERENCES recipes(recipes_id)
+);
